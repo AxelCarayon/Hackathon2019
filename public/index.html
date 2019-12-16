@@ -8,13 +8,23 @@
     <link rel = "stylesheet" type = "text/css" href = "config.css" />
     <link rel = "stylesheet" type = "text/css" href = "/packages/bootstrap/dist/css/bootstrap.css" />
     <script src="/packages/jquery/dist/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
     <script src="/packages/angular/angular.min.js"></script>
     <script src="/packages/bootstrap/dist/js/bootstrap.js"></script>
 </head>
 <body ng-app="gpecApp" ng-controller="controleur">
 	<div class="container">
             <h1>Application client</h1>
+            
+            <form id='formulaireEmployes'>
+                <select>
+                    <div id="Employes"></div>
+                    <div id='optionEmploye' style="display: none;">
+                        <option><div id="EployeValue"></div></option>
+                    </div>
+                </select>
+                <input type='submit' value='Chercher'>
+            </form>
+            
             
             <div id="timelineEvent">
                 <!-- main timeline section -->
@@ -24,38 +34,69 @@
             </div>
 	</div>
     </body>
-    <script id="ajoutEvent">
-        {{#evenement}}
-            <!-- single timeline event -->
-            <div class="cd-timeline-block">
-                <div class="cd-timeline-img cd-picture">
-                    <img src="event.png" />
-                </div>
-                <div class="cd-timeline-content">
-                    <h2>{{description}}</h2>
-                    <p>{{nom}} {{prenoms}}<br/>
-                       {{Poste}}</p>
-                    <span class="cd-date">{{date_ev}}</span>
-                </div>
+    <div id="ajoutEvent" style="display: none;">
+        <!-- single timeline event -->
+        <div class="cd-timeline-block">
+            <div class="cd-timeline-img cd-picture">
+                <img src="event.png" />
             </div>
-        {{/evenement}}
-    </script>
+            <div class="cd-timeline-content">
+                <h2 class='description'></h2>
+                <div class='nom'></div>
+                <div class='poste'></div>
+                <div class='details'></div>
+                <span class="cd-date"><div class='date'></div></span>
+            </div>
+        </div>
+    </div>
     <script>
         //either use jQuery or AngularJS...
 	$(document).ready(function() {
             $.ajax({
                 method: 'GET',
-                url: 'test_evenements',
+                url: 'all_evenements',
 		dataType: 'json',
-                    success: function(data) {
-                        var template = $('#ajoutEvent').html();
-                        var processedTemplate = Mustache.to_html(template, data);
-                        $('#event').html(processedTemplate);
+                    success: function(dataC) {
+                        $(dataC).each(function(k, v){
+                            let nouv = $('#ajoutEvent').clone().css('display','block');
+                            $(nouv).find('.description').text(v.description);
+                            $(nouv).find('.nom').text(v.nom + " " + v.prenoms);
+                            $(nouv).find('.poste').text(v.Poste); 
+                            if(v.date_fin !== null){
+                                $(nouv).find('.date').text(v.date_debut + " - " + v.date_fin); 
+                            } else {
+                                $(nouv).find('.date').text(v.date_debut); 
+                            }      
+                            
+                            if(v.details !== null){
+                                $(nouv).find('.details').text(v.details);
+                            }
+                
+                            $(nouv).appendTo("#event");
+                        });
                     },
                     error: function(x, error) {
                             console.log(error);
                         }
-                    });
+            });
+            
+            
+            $.ajax({
+                method: 'GET',
+                url: 'personnels',
+		dataType: 'json',
+                    success: function(dataC) {
+                        $(dataC).each(function(k, v){
+                            let nouv =$('#optionEmploye').css("display", "block");
+                            $(nouv).find('.EmployeValue').text(v.nom);
+                            
+                            $(nouv).appendTo("#Employes");
+                        });
+                    },
+                    error: function(x, error) {
+                            console.log(error);
+                        }
+            });
         });
 
         var app = angular.module('gpecApp', []);
