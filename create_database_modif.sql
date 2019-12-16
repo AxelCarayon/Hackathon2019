@@ -61,7 +61,12 @@ INSERT INTO Types(id,description) VALUES
 (3,'Formation'),
 (4,'Evolution de rémunération'),
 (5,'Avertissement'),
-(6,'Entretien professionnel');
+(6,'Entretien professionnel'),
+(7,'Entretien d''évaluation'),
+(8,'Entretien de carrière'),
+(9,'Avenant Contrat'),
+(10,'Evolution hors entreprise (CPF)'),
+(11,'Habilitation');
 
 -- =======================================================================
 
