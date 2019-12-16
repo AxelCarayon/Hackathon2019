@@ -12,6 +12,50 @@ CREATE TABLE Postes (
 	libelle TEXT		
 );
 
+--EVENEMENTS
+-- ======================================================================
+
+DROP TABLE IF EXISTS Evenements;
+
+CREATE TABLE Evenements (
+	id INTEGER PRIMARY KEY NOT NULL,
+	date_ev DATE NOT NULL,
+	fk_employe INT NOT NULL,
+	fk_type INTEGER NOT NULL
+);
+
+INSERT INTO Evenements(id,date_ev,fk_employe,fk_type) VALUES
+(1,'2019-12-16',1,1);
+
+-- ======================================================================
+
+
+--TYPES
+-- ======================================================================
+
+DROP TABLE IF EXISTS Types;
+
+CREATE TABLE Types (
+	id INTEGER PRIMARY KEY NOT NULL,
+	description TEXT NOT NULL
+);
+
+INSERT INTO Types(id,description) VALUES
+(1,'Entretien professionnel'),
+(2,'Entretien d''évalutation'),
+(3,'Entretien de carrière'),
+(4,'Formation'),
+(5,'Evolution de rémunération'),
+(6,'Arrêts maladie'),
+(7,'Accidents de travail'),
+(8,'Avenants contrat'),
+(9,'Evolutions'),
+(10,'Avertissement'),
+(11,'VAE CQP'),
+(12,'Habitations');
+
+-- ======================================================================
+
 INSERT INTO Postes(id,libelle) VALUES
 (1,'Chef d''équipe'),
 (2,'Responsable production'),

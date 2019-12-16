@@ -30,6 +30,40 @@ app.get('/postes', function(req, res) {
 	});
 });
 
+app.get('/types', function(req, res) {
+	let sql = 'SELECT * FROM Types';
+	db.all(sql, [], (err, rows) => {
+		if (err) {
+			throw err;
+		}
+		res.send(rows);
+	});
+});
+
+app.get('/evenements', function(req, res) {
+	let sql = 'SELECT * FROM Evenements';
+	db.all(sql, [], (err, rows) => {
+		if (err) {
+			throw err;
+		}
+		res.send(rows);
+	});
+});
+
+app.get('/test_evenements', function(req, res) {
+	let sql = 'SELECT Personnels.Nom,Personnels.Prenoms,Services.libelle as Service ,Postes.libelle as Poste,Evenements.date_ev,Types.description FROM Evenements '+
+	'INNER JOIN Types,Personnels,Postes,Services '+
+	'WHERE Types.id = Evenements.fk_type '+
+	'AND Personnels.id = Evenements.fk_employe '+
+	'AND Postes.id = Personnels.fk_emploi '+
+	'AND Services.id = Personnels.service';
+	db.all(sql, [], (err, rows) => {
+		if (err) {
+			throw err;
+		}
+		res.send(rows);
+	});
+});
 var port = 8080;
 var server = app.listen(port, function(){
   console.log('listening on *:'+port);
