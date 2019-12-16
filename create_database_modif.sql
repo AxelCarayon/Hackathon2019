@@ -19,13 +19,26 @@ DROP TABLE IF EXISTS Evenements;
 
 CREATE TABLE Evenements (
 	id INTEGER PRIMARY KEY NOT NULL,
-	date_ev DATE NOT NULL,
+	date_ev DATE,
+	date_debut DATE,
+	date_fin DATE,
+	details TEXT,
 	fk_employe INT NOT NULL,
 	fk_type INTEGER NOT NULL
 );
 
-INSERT INTO Evenements(id,date_ev,fk_employe,fk_type) VALUES
-(1,'2019-12-16',1,1);
+INSERT INTO Evenements(id,date_debut,date_fin,fk_employe,fk_type) VALUES
+(1,'2019-12-01','2019-12-16',6,1); -- Arrêt Maladie
+INSERT INTO Evenements(id,date_debut,fk_employe,fk_type) VALUES
+(2,'2019-05-12',4,2); -- Accident de travail
+INSERT INTO Evenements(id,date_debut,details,fk_employe,fk_type) VALUES
+(3,'2018-12-31','Formation aux outils bureautiques',2,3); --Formation
+INSERT INTO Evenements(id,date_debut,fk_employe,fk_type) VALUES
+(4,'2018-01-06',4,4); -- Evolution de rémunération
+INSERT INTO Evenements(id,date_debut,details,fk_employe,fk_type) VALUES
+(5,'2017-01-01','Absent de son poste',4,5); --Avertissement
+INSERT INTO Evenements(id,date_debut,date_fin,details,fk_employe,fk_type) VALUES
+(6,'2018-04-15','2018-04-30','Formation sur le management d''une équipe',4,3);
 
 -- ======================================================================
 
@@ -41,20 +54,15 @@ CREATE TABLE Types (
 );
 
 INSERT INTO Types(id,description) VALUES
-(1,'Entretien professionnel'),
-(2,'Entretien d''évalutation'),
-(3,'Entretien de carrière'),
-(4,'Formation'),
-(5,'Evolution de rémunération'),
-(6,'Arrêts maladie'),
-(7,'Accidents de travail'),
-(8,'Avenants contrat'),
-(9,'Evolutions'),
-(10,'Avertissement'),
-(11,'VAE CQP'),
-(12,'Habitations');
+(1,'Arrêt Maladie'),
+(2,'Accident de travail'),
+(3,'Formation'),
+(4,'Evolution de rémunération'),
+(5,'Avertissement');
 
--- ======================================================================
+-- =======================================================================
+
+
 
 INSERT INTO Postes(id,libelle) VALUES
 (1,'Chef d''équipe'),
