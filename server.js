@@ -20,6 +20,16 @@ app.get('/personnels', function(req, res) {
 	});
 });
 
+app.get('/postes', function(req, res) {
+	let sql = 'SELECT * FROM Postes';
+	db.all(sql, [], (err, rows) => {
+		if (err) {
+			throw err;
+		}
+		res.send(rows);
+	});
+});
+
 var port = 8080;
 var server = app.listen(port, function(){
   console.log('listening on *:'+port);
