@@ -33,12 +33,14 @@ INSERT INTO Evenements(id,date_debut,fk_employe,fk_type) VALUES
 (2,'2019-05-12',4,2); -- Accident de travail
 INSERT INTO Evenements(id,date_debut,details,fk_employe,fk_type) VALUES
 (3,'2018-12-31','Formation aux outils bureautiques',2,3); --Formation
-INSERT INTO Evenements(id,date_debut,fk_employe,fk_type) VALUES
-(4,'2018-01-06',4,4); -- Evolution de rémunération
+INSERT INTO Evenements(id,date_debut,fk_employe,details,fk_type) VALUES
+(4,'2018-01-06','+500€ brut mensuels',4,4); -- Evolution de rémunération
 INSERT INTO Evenements(id,date_debut,details,fk_employe,fk_type) VALUES
 (5,'2017-01-01','Absent de son poste',4,5); --Avertissement
 INSERT INTO Evenements(id,date_debut,date_fin,details,fk_employe,fk_type) VALUES
-(6,'2018-04-15','2018-04-30','Formation sur le management d''une équipe',4,3);
+(6,'2018-04-15','2018-04-30','Formation sur le management d''une équipe',4,3); --Formation
+INSERT INTO Evenements(id,date_debut,details,fk_employe,fk_type) VALUES
+(7,'2019-08-11','Evaluation des performances des 6 derniers mois',3,6);
 
 -- ======================================================================
 
@@ -58,7 +60,8 @@ INSERT INTO Types(id,description) VALUES
 (2,'Accident de travail'),
 (3,'Formation'),
 (4,'Evolution de rémunération'),
-(5,'Avertissement');
+(5,'Avertissement'),
+(6,'Entretien professionnel');
 
 -- =======================================================================
 

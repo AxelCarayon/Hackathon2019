@@ -98,6 +98,23 @@ app.get('/evenement_salarie', function(req, res) {
 	});
 });
 
+app.get('/evenement_service', function(req, res) {
+	let sql = 'SELECT Personnels.Nom,Personnels.Prenoms,Services.libelle as Service , Postes.libelle as Poste,Evenements.date_debut,Evenements.date_fin,Types.description,Evenements.details FROM Evenements '+
+	'INNER JOIN Types,Personnels,Postes,Services '+
+	'WHERE Types.id = Evenements.fk_type '+
+	'AND Personnels.id = Evenements.fk_employe '+
+	'AND Postes.id = Personnels.fk_emploi '+
+	'AND Services.id = Personnels.service ' +
+	'AND Personnels.service = ?'
+	'ORDER BY Evenements.date_debut DESC';
+	db.all(sql, req.query.service, (err, rows) => {
+		if (err) {
+			throw err;
+		}
+		res.send(rows);
+	});
+});
+
 
 var port = 8080;
 var server = app.listen(port, function(){
