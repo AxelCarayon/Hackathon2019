@@ -2,3 +2,4 @@
 *.swp
 /PrepData/
 package-lock.json
+/nbproject/private/

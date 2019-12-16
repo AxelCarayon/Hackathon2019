@@ -61,7 +61,7 @@ app.get('/test_evenements', function(req, res) {
 		if (err) {
 			throw err;
 		}
-		res.send(rows);
+		res.send({evenement: rows});
 	});
 });
 
