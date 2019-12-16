@@ -1,72 +1,81 @@
 <!doctype html>
 <html>
   <meta charset="utf-8">
-	  <title>Web-Application démarrage Hackathon</title>
-	  <meta name="description" content="???">
-		<meta name="author" content="David Panzoli">
-		<link rel = "stylesheet" type = "text/css" href = "/packages/bootstrap/dist/css/bootstrap.css" />
-		<script src="/packages/jquery/dist/jquery.min.js"></script>
-		<script src="/packages/angular/angular.min.js"></script>
-		<script src="/packages/bootstrap/dist/js/bootstrap.js"></script>
-	</head>
-	<body ng-app="gpecApp" ng-controller="controleur">
+    <title>Application Hackathon</title>
+    <meta name="description" content="???">
+    <meta name="author" content="David Panzoli">
+    
+    <link rel = "stylesheet" type = "text/css" href = "config.css" />
+    <link rel = "stylesheet" type = "text/css" href = "/packages/bootstrap/dist/css/bootstrap.css" />
+    <script src="/packages/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/mustache.js/0.8.1/mustache.min.js"></script>
+    <script src="/packages/angular/angular.min.js"></script>
+    <script src="/packages/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body ng-app="gpecApp" ng-controller="controleur">
 	<div class="container">
-	<h1>Application client</h1>
-	<ul class="nav nav-pills" id="myTab" role="tablist">
-	  <li class="nav-item">
-		<a class="nav-link active" id="jquery-tab" data-toggle="tab" href="#jquery" role="tab" aria-controls="jquery" aria-selected="true">jQuery</a>
-	  </li>
-	  <li class="nav-item">
-		<a class="nav-link" id="angular-tab" data-toggle="tab" href="#angular" role="tab" aria-controls="angular" aria-selected="false">Angular</a>
-	  </li>
-	</ul>
-	<div class="tab-content" id="myTabContent">
-	  <div class="tab-pane fade show active" id="jquery" role="tabpanel" aria-labelledby="jquery-tab">
-		<p>Données chargées avec jQuery</p>	
-		<table id="tabPersonnels_jQ" class="table">
-		</table>
-	  </div>
-	  <div class="tab-pane fade" id="angular" role="tabpanel" aria-labelledby="angular-tab">
-		<p>Données chargées avec angularJS</p>
-		<table id="tabPersonnels_An" class="table">
-			<tr ng-repeat="p in personnels">
-				<td> {{p.nom}} </td>
-				<td> {{p.date_naissance}} </td>
-			</tr>
-		</table>
-	  </div>
+            <h1>Application client</h1>
+            
+            <div id="timelineEvent">
+                <!-- main timeline section -->
+                <section id="cd-timeline" class="cd-container cssanimations">
+                    <div id="event"></div>
+                </section>
+            </div>
 	</div>
-	</div>
-	</body>
-	<script>
-		//either use jQuery or AngularJS...
-		$(document).ready(function() {
-			$.ajax({
-				method: 'GET',
-				url: 'personnels/',
-				dataType: 'json',
-				success: function(data) {
-					(data).forEach(function(d,i) {
-						$('#tabPersonnels_jQ').append('<tr ><td>'+d.nom+'</td><td>'+d.date_naissance+'</td></tr>');
-					});
-				},
-				error: function(x, error) {
-					console.log(error);
-				}
-			});
-		});
+    </body>
+    <script id="ajoutEvent">
+        {{#evenement}}
+            <!-- single timeline event -->
+            <div class="cd-timeline-block">
+                <div class="cd-timeline-img cd-picture">
+                    <img src="event.png" />
+                </div>
+                <div class="cd-timeline-content">
+                    <h2>{{description}}</h2>
+                    <p>{{nom}} {{prenoms}}<br/>
+                       {{Poste}}</p>
+                    <span class="cd-date">{{date_ev}}</span>
+                </div>
+            </div>
+        {{/evenement}}
+    </script>
+    <script>
+        //either use jQuery or AngularJS...
+	$(document).ready(function() {
+            $.ajax({
+                method: 'GET',
+                url: 'test_evenements',
+		dataType: 'json',
+                    success: function(data) {
+                        var template = $('#ajoutEvent').html();
+                        var processedTemplate = Mustache.to_html(template, data);
+                        $('#event').html(processedTemplate);
+                    },
+                    error: function(x, error) {
+                            console.log(error);
+                        }
+                    });
+        });
 
-		var app = angular.module('gpecApp', []);
+        var app = angular.module('gpecApp', []);
 		
-		app.controller('controleur', function($scope, $http) {
+        app.controller('controleur', function($scope, $http) {
 
-			$http.get('/personnels').then(function(response) {
-				$scope.personnels = response.data;
-			});
+            $http.get('/personnels').then(function(response) {
+                $scope.personnels = response.data;
+            });
 
-		});
+        });
 
-	</script>
 
+        $(window).on('scroll', function(){
+            $('.cd-timeline-block').each(function(){
+                if( $(this).offset().top <= $(window).scrollTop()+$(window).height()*0.75 && $(this).find('.cd-timeline-img').hasClass('is-hidden') ) {
+                    $(this).find('.cd-timeline-img, .cd-timeline-content').removeClass('is-hidden').addClass('bounce-in');
+                }
+            });
+        });
+    </script>
 </html>
 
