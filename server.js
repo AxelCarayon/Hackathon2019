@@ -138,6 +138,52 @@ app.get('/evenement_service', function(req, res) {
 	});
 });
 
+app.get('/ajouter_evenement', function(req, res) {
+	console.log(req.query);
+	// date_debut, date_fin, employe, type, details
+		// if (req.query.date_fin==="null" & req.query.date_details==="null") {
+			// let sql = 'INSERT INTO Evenements(date_debut,fk_employe,fk_type) ' +
+			// 'VALUES (?,?,?)';
+			// db.all(sql, req.query.date_debut, req.query.fk_employe, req.query.fk_type,(err,rows) => {
+				// if (err) {
+					// throw err;
+				// }
+				// res.send(req.query);
+			// });
+		// }
+		// else if (req.query.date_fin==="null" & req.query.date_details!="null"){
+			// let sql = 'INSERT INTO Evenements(date_debut,details,fk_employe,fk_type) ' +
+			// 'VALUES (?,?,?,?)';
+			// db.all(sql, req.query.date_debut,req.query.details, req.query.fk_employe, req.query.fk_type,(err,rows) => {
+				// if (err) {
+					// throw err;
+				// }
+				// res.send(req.query);
+			// });
+		// }
+		
+		// else if (req.query.date_fin!="null" & req.query.date_details==="null"){
+			// let sql = 'INSERT INTO Evenements(date_debut,date_fin,fk_employe,fk_type) ' +
+			// 'VALUES (?,?,?,?)';
+			// db.all(sql, req.query.date_debut,req.query.date_fin, req.query.fk_employe, req.query.fk_type,(err,rows) => {
+				// if (err) {
+					// throw err;
+				// }
+				// res.send(req.query);
+			// });
+		// }
+		if (req.query.date_fin!="null" & req.query.date_details!="null"){
+			let sql = 'INSERT INTO Evenements(date_debut,date_fin,details,fk_employe,fk_type) ' +
+		'VALUES (?,?,?,?,?)';
+			db.all(sql, req.query.date_debut,req.query.date_fin, req.query.details, req.query.fk_employe, req.query.fk_type,(err,rows) => {
+				if (err) {
+					throw err;
+				}
+				res.send(req.query);
+			});
+		}
+});
+
 
 var port = 8080;
 var server = app.listen(port, function(){

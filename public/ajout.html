@@ -97,7 +97,23 @@ $('#div-reste').append('</br>')
 $('#div-reste').append('<label for="details">Détails: </label>');
 $('#div-reste').append('<input type="text" id="details" name="name" size="50">');
 $('#div-reste').append('</br>')
-$('#div-reste').append('<button type="button">Envoyer le nouvel evenement</button>');
+$('#div-reste').append('<button type="button" onclick="valider()">Envoyer le nouvel evenement</button>');
+
+}
+
+function valider(){
+$.ajax({
+                method: 'GET',
+                url: "ajouter_evenement?date_debut="+$('#debut').val()+"&date_fin="+$('#fin').val()+"&details="+$('#details').val()+"&fk_employe="+$('#employe-select').val()+"&fk_type="+$('#types-select').val(),
+				//data: "{ date_debut: $('#debut').val(), date_fin:$('#fin').val(), details:$('#details').val(), fk_employe:$('#employe-select').val(), fk_type:$('#types-select').val() }"
+				dataType: 'json',
+                    success: function(dataC) {
+						console.log('ok');
+                    },
+                    error: function(x, error) {
+                            console.log(error);
+                        }
+            });
 
 }</script>
 

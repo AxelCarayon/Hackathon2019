@@ -19,8 +19,7 @@ DROP TABLE IF EXISTS Evenements;
 
 CREATE TABLE Evenements (
 	id INTEGER PRIMARY KEY NOT NULL,
-	date_ev DATE,
-	date_debut DATE,
+	date_debut DATE NOT NULL,
 	date_fin DATE,
 	details TEXT,
 	fk_employe INT NOT NULL,
@@ -39,8 +38,8 @@ INSERT INTO Evenements(id,date_debut,details,fk_employe,fk_type) VALUES
 (5,'2017-01-01','Absent de son poste',4,5); --Avertissement
 INSERT INTO Evenements(id,date_debut,date_fin,details,fk_employe,fk_type) VALUES
 (6,'2018-04-15','2018-04-30','Formation sur le management d''une équipe',4,12); --Formation
-INSERT INTO Evenements(id,date_debut,details,fk_employe,fk_type) VALUES
-(7,'2019-08-11','Evaluation des performances des 6 derniers mois',3,6);
+INSERT INTO Evenements(date_debut,details,fk_employe,fk_type) VALUES
+('2019-08-11','Evaluation des performances des 6 derniers mois',3,6);
 
 -- ======================================================================
 
