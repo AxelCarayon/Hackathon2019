@@ -10,6 +10,16 @@ app.use('/', express.static(__dirname + '/public/'));
 
 app.use('/packages', express.static(__dirname + '/node_modules/'));
 
+app.get('/services', function(req, res) {
+	let sql = 'SELECT * FROM Services';
+	db.all(sql, [], (err, rows) => {
+		if (err) {
+			throw err;
+		}
+		res.send(rows);
+	});
+});
+
 app.get('/personnels', function(req, res) {
 	let sql = 'SELECT * FROM Personnels';
 	db.all(sql, [], (err, rows) => {

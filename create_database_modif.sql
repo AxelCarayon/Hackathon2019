@@ -38,7 +38,7 @@ INSERT INTO Evenements(id,date_debut,fk_employe,details,fk_type) VALUES
 INSERT INTO Evenements(id,date_debut,details,fk_employe,fk_type) VALUES
 (5,'2017-01-01','Absent de son poste',4,5); --Avertissement
 INSERT INTO Evenements(id,date_debut,date_fin,details,fk_employe,fk_type) VALUES
-(6,'2018-04-15','2018-04-30','Formation sur le management d''une équipe',4,3); --Formation
+(6,'2018-04-15','2018-04-30','Formation sur le management d''une équipe',4,12); --Formation
 INSERT INTO Evenements(id,date_debut,details,fk_employe,fk_type) VALUES
 (7,'2019-08-11','Evaluation des performances des 6 derniers mois',3,6);
 
@@ -58,7 +58,7 @@ CREATE TABLE Types (
 INSERT INTO Types(id,description) VALUES
 (1,'Arrêt Maladie'),
 (2,'Accident de travail'),
-(3,'Formation'),
+(3,'Formation Obligatoire'),
 (4,'Evolution de rémunération'),
 (5,'Avertissement'),
 (6,'Entretien professionnel'),
@@ -66,7 +66,8 @@ INSERT INTO Types(id,description) VALUES
 (8,'Entretien de carrière'),
 (9,'Avenant Contrat'),
 (10,'Evolution hors entreprise (CPF)'),
-(11,'Habilitation');
+(11,'Habilitation'),
+(12,'Formation facultative');
 
 -- =======================================================================
 
