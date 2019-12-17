@@ -13,14 +13,13 @@
 </head>
 <body ng-app="gpecApp" ng-controller="controleur">
 	<div class="container">
-            <h1>Application client</h1>
+            <h1>Application client</h1><br/><br/><br/>
+            
             
             <form id='formulaireEmployes'>
-                <select>
-                    <div id="Employes"></div>
-                    <div id='optionEmploye' style="display: none;">
-                        <option><div id="EployeValue"></div></option>
-                    </div>
+                Choix d'employé : 
+                <select id="selectEmploye">
+                  <option selected>Tout les employes</option>             
                 </select>
                 <input type='submit' value='Chercher'>
             </form>
@@ -86,11 +85,9 @@
                 url: 'personnels',
 		dataType: 'json',
                     success: function(dataC) {
+                        console.log(dataC.length)
                         $(dataC).each(function(k, v){
-                            let nouv =$('#optionEmploye').css("display", "block");
-                            $(nouv).find('.EmployeValue').text(v.nom);
-                            
-                            $(nouv).appendTo("#Employes");
+                            $("#selectEmploye").append("<option>" + v.prenoms + " " + v.nom + "</option>")
                         });
                     },
                     error: function(x, error) {
