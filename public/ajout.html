@@ -88,11 +88,14 @@ function afficherTypes(){
 function afficherReste(){
 $('body').append('<div id="div-reste"></div>');
 $('#div-reste').empty();
-$('#div-reste').append('<label for="date_debut">Date de fin : </label>');
-$('#div-reste').append('<input type="date" id="debut" name="date_debut" required>');
+$('#div-reste').append('<label for="date_debut">Date de début : </label>');
+$('#div-reste').append('<input type="date" id="debut" name="date_debut" required> *obligatoire');
 $('#div-reste').append('</br>')
 $('#div-reste').append('<label for="date_fin">Date de fin : </label>');
 $('#div-reste').append('<input type="date" id="fin" name="date_fin">');
+$('#div-reste').append('</br>')
+$('#div-reste').append('<label for="details">Détails: </label>');
+$('#div-reste').append('<input type="text" id="details" name="name" size="50">');
 $('#div-reste').append('</br>')
 $('#div-reste').append('<button type="button">Envoyer le nouvel evenement</button>');
 
