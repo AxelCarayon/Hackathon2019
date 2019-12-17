@@ -13,18 +13,37 @@
 </head>
 <body ng-app="gpecApp" ng-controller="controleur">
 	<div class="container">
-            <h1>Application client</h1><br/><br/><br/>
+            <div class="titre">
+                <h1>T. R. H.</h1><br/>
+                <h5>Temps des Ressources humaines</h5><i>(Pas d'anglicisme ici !!!)</i>
+            </div>
+            <br/><br/><br/>
             
             
-            <form id='formulaireEmployes'>
-                Choix d'employé : 
-                <select id="selectEmploye">
-                  <option selected>Tout les employes</option>             
-                </select>
-                <input type='submit' value='Chercher'>
-            </form>
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-lg-6 col-sm-12">
+                        <form id='formulaireEmployes' onsubmit="eventEmploye();">
+                            Choix d'employé : 
+                            <select id="selectEmploye" name="id">
+                                <option selected>Aucun employe</option>
+                            </select>
+                            <input type='submit' value='Chercher'>
+                        </form>
+                    </div>
+                    <div class="col-lg-6 col-sm-12">
             
-            
+                        <form id='formulaireServices' onsubmit="eventService();">
+                            Choix de service : 
+                            <select id="selectService" name="service">
+                                <option selected>Aucun service</option>             
+                            </select>
+                            <input type='submit' value='Chercher'>
+                        </form>
+                    </div>
+            </div>
+            <br/><br/><br/><br/>
+            <h2>Historique :</h2>
             <div id="timelineEvent">
                 <!-- main timeline section -->
                 <section id="cd-timeline" class="cd-container cssanimations">
@@ -36,9 +55,10 @@
     <div id="ajoutEvent" style="display: none;">
         <!-- single timeline event -->
         <div class="cd-timeline-block">
-            <div class="cd-timeline-img cd-picture">
-                <img src="event.png" />
-            </div>
+            <div class="cd-timeline-img cd-picture"></div>
+            
+            
+            
             <div class="cd-timeline-content">
                 <h2 class='description'></h2>
                 <div class='nom'></div>
@@ -58,8 +78,27 @@
                     success: function(dataC) {
                         $(dataC).each(function(k, v){
                             let nouv = $('#ajoutEvent').clone().css('display','block');
-                            $(nouv).find('.description').text(v.description);
-                            $(nouv).find('.nom').text(v.nom + " " + v.prenoms);
+                            
+                            if(v.description === "Arrêt Maladie"
+                                    | v.description === "Accident de travail"
+                                    | v.description === "Avertissement"){
+                                $(nouv).find('.cd-timeline-img').addClass("arretM");
+                            } else if (v.description === "Entretien professionnel"
+                                    | v.description === "Entretien d'évaluation"
+                                    | v.description === "Entretien de carrière"
+                                    | v.description === "Evolution de rémunération") {
+                                $(nouv).find('.cd-timeline-img').addClass("entretien");
+                            } else if (v.description === "Formation facultative"
+                                    | v.description === "Formation Obligatoire"
+                                    | v.description === "Evolution hors entreprise (CPF)"){
+                                $(nouv).find('.cd-timeline-img').addClass("formation");
+                            } else {
+                                $(nouv).find('.cd-timeline-img').addClass("contrat");
+                            }
+                            
+                            
+                            $(nouv).find('.description').text(v.nom + " " + v.prenoms);
+                            $(nouv).find('.nom').text(v.description);
                             $(nouv).find('.poste').text(v.Poste); 
                             if(v.date_fin !== null){
                                 $(nouv).find('.date').text(v.date_debut + " - " + v.date_fin); 
@@ -87,7 +126,23 @@
                     success: function(dataC) {
                         console.log(dataC.length)
                         $(dataC).each(function(k, v){
-                            $("#selectEmploye").append("<option>" + v.prenoms + " " + v.nom + "</option>")
+                            $("#selectEmploye").append("<option value=\"" + v.id + "\">" + v.prenoms + " " + v.nom + "</option>")
+                        });
+                    },
+                    error: function(x, error) {
+                            console.log(error);
+                        }
+            });
+            
+            
+            $.ajax({
+                method: 'GET',
+                url: 'services',
+		dataType: 'json',
+                    success: function(dataC) {
+                        console.log(dataC.length)
+                        $(dataC).each(function(k, v){
+                            $("#selectService").append("<option value=\"" + v.id + "\">" + v.libelle + "</option>")
                         });
                     },
                     error: function(x, error) {
@@ -105,6 +160,121 @@
             });
 
         });
+
+
+
+        
+        /*   FONCTIONS SELECTION COMBO-BOX    */
+        
+        function eventEmploye(){
+            $.ajax({
+                method: 'GET',
+                url: 'evenement_salarie',
+                data : $('#formulaireEmployes').serialize(),
+		dataType: 'json',
+                    success: function(dataC) {
+                        $('#event').html("");
+                        $(dataC).each(function(k, v){
+                            let nouv = $('#ajoutEvent').clone().css('display','block');
+                            
+                            if(v.description === "Arrêt Maladie"
+                                    | v.description === "Accident de travail"
+                                    | v.description === "Avertissement"){
+                                $(nouv).find('.cd-timeline-img').addClass("arretM");
+                            } else if (v.description === "Entretien professionnel"
+                                    | v.description === "Entretien d'évaluation"
+                                    | v.description === "Entretien de carrière"
+                                    | v.description === "Evolution de rémunération") {
+                                $(nouv).find('.cd-timeline-img').addClass("entretien");
+                            } else if (v.description === "Formation facultative"
+                                    | v.description === "Formation Obligatoire"
+                                    | v.description === "Evolution hors entreprise (CPF)"){
+                                $(nouv).find('.cd-timeline-img').addClass("formation");
+                            } else {
+                                $(nouv).find('.cd-timeline-img').addClass("contrat");
+                            }
+                            
+                            
+                            $(nouv).find('.description').text(v.description);
+                            $(nouv).find('.nom').text(v.nom + " " + v.prenoms);
+                            $(nouv).find('.poste').text(v.Poste); 
+                            if(v.date_fin !== null){
+                                $(nouv).find('.date').text(v.date_debut + " - " + v.date_fin); 
+                            } else {
+                                $(nouv).find('.date').text(v.date_debut); 
+                            }      
+                            
+                            if(v.details !== null){
+                                $(nouv).find('.details').text(v.details);
+                            }
+                
+                            $(nouv).appendTo("#event");
+                        });
+                        
+                    },
+                    error: function(x, error) {
+                            console.log(error);
+                        }
+            });
+        }
+        
+        
+        
+        function eventService(){
+            $.ajax({
+                method: 'GET',
+                url: 'evenement_service',
+                data : $('#formulaireServices').serialize(),
+		dataType: 'json',
+                    success: function(dataC) {
+                        $('#event').html("");
+                        $(dataC).each(function(k, v){
+                            let nouv = $('#ajoutEvent').clone().css('display','block');
+                            
+                            if(v.description === "Arrêt Maladie"
+                                    | v.description === "Accident de travail"
+                                    | v.description === "Avertissement"){
+                                $(nouv).find('.cd-timeline-img').addClass("arretM");
+                            } else if (v.description === "Entretien professionnel"
+                                    | v.description === "Entretien d'évaluation"
+                                    | v.description === "Entretien de carrière"
+                                    | v.description === "Evolution de rémunération") {
+                                $(nouv).find('.cd-timeline-img').addClass("entretien");
+                            } else if (v.description === "Formation facultative"
+                                    | v.description === "Formation Obligatoire"
+                                    | v.description === "Evolution hors entreprise (CPF)"){
+                                $(nouv).find('.cd-timeline-img').addClass("formation");
+                            } else {
+                                $(nouv).find('.cd-timeline-img').addClass("contrat");
+                            }
+                            
+                            
+                            $(nouv).find('.description').text(v.nom + " " + v.prenoms);
+                            $(nouv).find('.nom').text(v.description);
+                            $(nouv).find('.poste').text(v.Poste); 
+                            if(v.date_fin !== null){
+                                $(nouv).find('.date').text(v.date_debut + " - " + v.date_fin); 
+                            } else {
+                                $(nouv).find('.date').text(v.date_debut); 
+                            }      
+                            
+                            if(v.details !== null){
+                                $(nouv).find('.details').text(v.details);
+                            }
+                
+                            $(nouv).appendTo("#event");
+                        });
+                        
+                    },
+                    error: function(x, error) {
+                            console.log(error);
+                        }
+            });
+        }
+        
+        
+        
+        
 
 
         $(window).on('scroll', function(){

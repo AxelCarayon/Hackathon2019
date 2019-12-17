@@ -8,6 +8,38 @@ and open the template in the editor.
     Author     : DELL
 */
 
+body
+{
+    background-image: url("fond.png");
+    background-size: cover;
+}
+
+
+.titre
+{
+    text-align: center;
+    margin-top: 100px;
+}
+
+.titre h1
+{
+    font-size: 4em;
+}
+
+.titre h5
+{
+    font-size: 2em;
+    color: blue;
+}
+
+
+.titre i
+{
+    color: red;
+    font-weight: bold;
+    font-size: 1.5em;
+}
+
 
 #cd-timeline {
   position: relative;
@@ -58,8 +90,6 @@ and open the template in the editor.
   width: 100%;
   left: 122%;
   top: 6px;
-  font-size: 16px;
-  font-size: 1rem;
 }
 .cd-timeline-block:nth-child(even) .cd-timeline-content .cd-date {
   left: auto;
@@ -85,10 +115,46 @@ and open the template in the editor.
 .cd-timeline-img {
   position: absolute;
   top: 0;
-  border-radius: 50%;
   box-shadow: 0 0 0 4px white, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
-  background: #105a8b;
 }
+
+.cd-date
+{
+    margin-left: 15%;
+    text-align: center;
+    font-size: 2em;
+}
+
+
+
+
+.cd-picture
+{
+    background-size : cover;
+    background-position: center;
+}
+
+.arretM
+{
+    background-image: url("warning.png");
+}
+
+.entretien
+{
+    background-image: url("eventE.png");
+}
+
+.formation
+{
+    background-image: url("eventF.png");
+}
+
+.contrat
+{
+    background-image: url("eventC.png");
+}
+
+
 .cd-timeline-img img,.cd-timeline-img svg {
   display: block;
   width: 24px;
