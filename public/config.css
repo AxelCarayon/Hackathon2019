@@ -12,7 +12,6 @@ and open the template in the editor.
 .titre
 {
     text-align: center;
-    margin-top: 100px;
 }
 
 .titre h1
@@ -29,9 +28,10 @@ and open the template in the editor.
 
 .titre i
 {
-    color: red;
+    color: purple;
+    font-family: "Loma Bold Oblique", serif;
     font-weight: bold;
-    font-size: 1.5em;
+    font-size: 3em;
 }
 
 
@@ -115,15 +115,6 @@ and open the template in the editor.
   box-shadow: 0 0 0 4px white, inset 0 2px 0 rgba(0, 0, 0, 0.08), 0 3px 0 4px rgba(0, 0, 0, 0.05);
 }
 
-
-
-.ident:odd {
-    
-}
-
-.ident:even {
-    
-}
 
 .important{
     font-weight: bold;
