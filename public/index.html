@@ -19,10 +19,12 @@
                 <i>"Votre solution pour demain !"</i>
             </div>
             <br/><br/><br/>
+        </div>
+            
             
             
             <div class="container-fluid">
-                <div class="row">
+                <div class="row" style="text-align: center;">
                     <div class="col-lg-6 col-sm-12">
                         <form id='formulaireEmployes' onsubmit="eventEmploye();">
                             Choix d'employé : 
@@ -42,22 +44,21 @@
                             <input type='submit' value='Chercher'>
                         </form>
                     </div>
-            </div>
-            <br/><br/><br/><br/>
-            <h2>Historique :</h2>
-            <div class=" container">
-                <div class="row">
-                    <div class='col-lg-2 div col-sm-12' style="text-align: right;">
-                        Légende :   
-                    </div>
-                    <div class='col-lg-3 div col-sm-12'>
-                        Element Passé
-                        <div style="color: blue;">Element Présent    </div> 
-                        <div style="color: green;"> Element Futur</div>
-                    </div>
-                    
+            </div><br/><br/>
+            <div class ="row">
+                <div class="col-lg-3"></div>
+                <div class="col-lg-6" style="text-align: center;">
+                    <input type="button" name="ajout" value="Ajouter un Evenement" onclick="self.location.href='ajout.html'" onclick>
                 </div>
+                <div class="col-lg-3"></div>
             </div>
+                
+                
+                
+                
+                
+            <br/>
+            <h2>Historique :</h2>
             
             <div id="timelineEvent">
                 <!-- main timeline section -->
