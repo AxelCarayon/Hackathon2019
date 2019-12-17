@@ -44,6 +44,20 @@
             </div>
             <br/><br/><br/><br/>
             <h2>Historique :</h2>
+            <div class=" container">
+                <div class="row">
+                    <div class='col-lg-2 div col-sm-12' style="text-align: right;">
+                        Légende :   
+                    </div>
+                    <div class='col-lg-3 div col-sm-12'>
+                        Element Passé
+                        <div style="color: blue;">Element Présent    </div> 
+                        <div style="color: green;"> Element Futur</div>
+                    </div>
+                    
+                </div>
+            </div>
+            
             <div id="timelineEvent">
                 <!-- main timeline section -->
                 <section id="cd-timeline" class="cd-container cssanimations">
@@ -52,13 +66,14 @@
             </div>
 	</div>
     </body>
+    
+    
+    
     <div id="ajoutEvent" style="display: none;">
         <!-- single timeline event -->
         <div class="cd-timeline-block">
             <div class="cd-timeline-img cd-picture"></div>
-            
-            
-            
+                        
             <div class="cd-timeline-content">
                 <h2 class='description'></h2>
                 <div class='nom'></div>
@@ -68,6 +83,10 @@
             </div>
         </div>
     </div>
+    
+    
+    
+    
     <script>
         //either use jQuery or AngularJS...
 	$(document).ready(function() {
@@ -76,8 +95,20 @@
                 url: 'all_evenements',
 		dataType: 'json',
                     success: function(dataC) {
+                        $('#event').html("");
                         $(dataC).each(function(k, v){
-                            let nouv = $('#ajoutEvent').clone().css('display','block');
+                            
+                            var now = new Date();
+                            
+                            var annee = now.getFullYear();
+                            var mois = now.getMonth()+1;
+                            var jour = now.getDate();
+                            
+                            var date = annee + "-" + mois + "-" + jour;
+                            
+                            
+                            
+                            let nouv = $('#ajoutEvent').clone().css('display','block').addClass('ident');
                             
                             if(v.description === "Arrêt Maladie"
                                     | v.description === "Accident de travail"
@@ -98,11 +129,29 @@
                             
                             
                             $(nouv).find('.description').text(v.nom + " " + v.prenoms);
-                            $(nouv).find('.nom').text(v.description);
                             $(nouv).find('.poste').text(v.Poste); 
+                            $(nouv).find('.nom').text(v.description);
                             if(v.date_fin !== null){
+                                
+                                if(date > v.date_debut){
+                                    $(nouv).find('.cd-timeline-content').addClass("passe");
+                                    
+                                } else if (v.date_fin < date & date < v.date_debut){
+                                    $(nouv).find('.cd-timeline-content').addClass("present");
+                                    
+                                } else {
+                                    $(nouv).find('.cd-timeline-content').addClass("futur");
+                                }
                                 $(nouv).find('.date').text(v.date_debut + " - " + v.date_fin); 
                             } else {
+                                
+                                if(date > v.date_debut){
+                                    $(nouv).find('cd-timeline-content').addClass('passe');
+                                } else if (date === v.date_debut){
+                                    $(nouv).find('cd-timeline-content').addClass('present');
+                                }else {
+                                    $(nouv).find('cd-timeline-content').addClass('futur');
+                                }
                                 $(nouv).find('.date').text(v.date_debut); 
                             }      
                             
@@ -124,9 +173,9 @@
                 url: 'personnels',
 		dataType: 'json',
                     success: function(dataC) {
-                        console.log(dataC.length)
+                        console.log(dataC.length);
                         $(dataC).each(function(k, v){
-                            $("#selectEmploye").append("<option value=\"" + v.id + "\">" + v.prenoms + " " + v.nom + "</option>")
+                            $("#selectEmploye").append("<option value=\"" + v.id + "\">" + v.prenoms + " " + v.nom + "</option>");
                         });
                     },
                     error: function(x, error) {
@@ -140,9 +189,9 @@
                 url: 'services',
 		dataType: 'json',
                     success: function(dataC) {
-                        console.log(dataC.length)
+                        console.log(dataC.length);
                         $(dataC).each(function(k, v){
-                            $("#selectService").append("<option value=\"" + v.id + "\">" + v.libelle + "</option>")
+                            $("#selectService").append("<option value=\"" + v.id + "\">" + v.libelle + "</option>");
                         });
                     },
                     error: function(x, error) {
@@ -175,6 +224,18 @@
                     success: function(dataC) {
                         $('#event').html("");
                         $(dataC).each(function(k, v){
+                            
+                            var now = new Date();
+                            
+                            var annee = now.getFullYear();
+                            var mois = now.getMonth()+1;
+                            var jour = now.getDate();
+                            
+                            var date = annee + "-" + mois + "-" + jour;
+                            
+                            
+                            
+                            
                             let nouv = $('#ajoutEvent').clone().css('display','block');
                             
                             if(v.description === "Arrêt Maladie"
@@ -198,9 +259,28 @@
                             $(nouv).find('.description').text(v.description);
                             $(nouv).find('.nom').text(v.nom + " " + v.prenoms);
                             $(nouv).find('.poste').text(v.Poste); 
+                            
                             if(v.date_fin !== null){
+                                
+                                if(date > v.date_debut){
+                                    $(nouv).find('.cd-timeline-content').addClass("passe");
+                                    
+                                } else if (v.date_fin < date & date < v.date_debut){
+                                    $(nouv).find('.cd-timeline-content').addClass("present");
+                                    
+                                } else {
+                                    $(nouv).find('.cd-timeline-content').addClass("futur");
+                                }
                                 $(nouv).find('.date').text(v.date_debut + " - " + v.date_fin); 
                             } else {
+                                
+                                if(date > v.date_debut){
+                                    $(nouv).find('cd-timeline-content').addClass('passe');
+                                } else if (date === v.date_debut){
+                                    $(nouv).find('cd-timeline-content').addClass('present');
+                                }else {
+                                    $(nouv).find('cd-timeline-content').addClass('futur');
+                                }
                                 $(nouv).find('.date').text(v.date_debut); 
                             }      
                             
@@ -229,6 +309,18 @@
                     success: function(dataC) {
                         $('#event').html("");
                         $(dataC).each(function(k, v){
+                            
+                            var now = new Date();
+                            
+                            var annee = now.getFullYear();
+                            var mois = now.getMonth()+1;
+                            var jour = now.getDate();
+                            
+                            var date = annee + "-" + mois + "-" + jour;
+                            
+                            
+                            
+                            
                             let nouv = $('#ajoutEvent').clone().css('display','block');
                             
                             if(v.description === "Arrêt Maladie"
@@ -250,13 +342,31 @@
                             
                             
                             $(nouv).find('.description').text(v.nom + " " + v.prenoms);
-                            $(nouv).find('.nom').text(v.description);
-                            $(nouv).find('.poste').text(v.Poste); 
+                            $(nouv).find('.nom').text(v.Poste);
+                            $(nouv).find('.poste').text(v.description).addClass('important'); 
                             if(v.date_fin !== null){
+                                
+                                if(date > v.date_debut){
+                                    $(nouv).find('.cd-timeline-content').addClass("passe");
+                                    
+                                } else if (v.date_fin < date & date < v.date_debut){
+                                    $(nouv).find('.cd-timeline-content').addClass("present");
+                                    
+                                } else {
+                                    $(nouv).find('.cd-timeline-content').addClass("futur");
+                                }
                                 $(nouv).find('.date').text(v.date_debut + " - " + v.date_fin); 
                             } else {
+                                
+                                if(date > v.date_debut){
+                                    $(nouv).find('cd-timeline-content').addClass('passe');
+                                } else if (date === v.date_debut){
+                                    $(nouv).find('cd-timeline-content').addClass('present');
+                                }else {
+                                    $(nouv).find('cd-timeline-content').addClass('futur');
+                                }
                                 $(nouv).find('.date').text(v.date_debut); 
-                            }      
+                            }    
                             
                             if(v.details !== null){
                                 $(nouv).find('.details').text(v.details);
