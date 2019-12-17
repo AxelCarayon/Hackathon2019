@@ -12,16 +12,17 @@
     <script src="/packages/bootstrap/dist/js/bootstrap.js"></script>
 </head>
 <body>
-
+<h1 class="container">Ajout d'un évènement</h1>
 <script>
 $(document).ready(function() {
+$('body').append('<div class="container" id="div-services"></div>');
             $.ajax({
                 method: 'GET',
                 url: 'services',
 		dataType: 'json',
                     success: function(dataC) {
-						$('body').append('<label for="service">Service : </label>');
-						$('body').append('<select name="service" id="service-select"></select>');
+						$('#div-services').append('<label for="service">Service : </label>');
+						$('#div-services').append('<select name="service" class="form-control" id="service-select"></select>');
 						$('#service-select').append('<option selected disabled>Selectionnez un service</option>');
                         $(dataC).each(function(k, v){
 						$('#service-select').append('<option value ="'+ v.id+'">'+v.libelle+'</option>');
@@ -36,7 +37,7 @@ $(document).ready(function() {
 		});
 function afficherListeClients(){
 	var noservice = $('#service-select').val();
-	$('body').append('<div id="div-clients"></div>');
+	$('body').append('<div class="container" id="div-clients"></div>');
 	$('#div-clients').empty();
 	console.log(noservice);
 	
@@ -46,7 +47,7 @@ function afficherListeClients(){
 		dataType: 'json',
                     success: function(dataC) {
 						$('#div-clients').append('<label for="employe">Employé : </label>');
-						$('#div-clients').append('<select name="employe" id="employe-select"></select>');
+						$('#div-clients').append('<select name="employe" class="form-control" id="employe-select"></select>');
 						$('#employe-select').append('<option selected disabled>Selectionnez un employé</option>');
                         $(dataC).each(function(k, v){
 						$('#employe-select').append('<option value ="'+ v.id+'">'+v.nom+' '+v.prenoms+'</option>');
@@ -62,7 +63,7 @@ function afficherListeClients(){
 }
 
 function afficherTypes(){
-	$('body').append('<div id="div-types"></div>');
+	$('body').append('<div class="container" id="div-types"></div>');
 	$('#div-types').empty();
 
 	$.ajax({
@@ -71,7 +72,7 @@ function afficherTypes(){
 		dataType: 'json',
                     success: function(dataC) {
 						$('#div-types').append('<label for="type">Type : </label>');
-						$('#div-types').append('<select name="type" id="types-select"></select>');
+						$('#div-types').append('<select name="type" class="form-control" id="types-select"></select>');
 						$('#types-select').append('<option selected disabled>Selectionnez un évènement</option>');
                         $(dataC).each(function(k, v){
 						$('#types-select').append('<option value ="'+ v.id+'">'+v.description+'</option>');
@@ -86,18 +87,19 @@ function afficherTypes(){
 }
 
 function afficherReste(){
-$('body').append('<div id="div-reste"></div>');
+$('body').append('</br>');
+$('body').append('<div class="container" id="div-reste"></div>');
 $('#div-reste').empty();
 $('#div-reste').append('<label for="date_debut">Date de début : </label>');
-$('#div-reste').append('<input type="date" id="debut" name="date_debut" required> *obligatoire');
+$('#div-reste').append('<input type="date" class="input-group date" id="debut" name="date_debut" required> *obligatoire');
 $('#div-reste').append('</br>')
 $('#div-reste').append('<label for="date_fin">Date de fin : </label>');
-$('#div-reste').append('<input type="date" id="fin" name="date_fin">');
+$('#div-reste').append('<input type="date" class="input-group date" id="fin" name="date_fin">');
 $('#div-reste').append('</br>')
 $('#div-reste').append('<label for="details">Détails: </label>');
-$('#div-reste').append('<input type="text" id="details" name="name" size="50">');
+$('#div-reste').append('<input type="text" class="form-text text-muted" id="details" name="name" size="50">');
 $('#div-reste').append('</br>')
-$('#div-reste').append('<button type="button" onclick="valider()">Envoyer le nouvel evenement</button>');
+$('#div-reste').append('<button type="button" class="btn btn-primary" onclick="valider()">Envoyer le nouvel evenement</button>');
 
 }
 
