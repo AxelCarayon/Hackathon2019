@@ -60,6 +60,19 @@ app.get('/evenements', function(req, res) {
 	});
 });
 
+app.get('/employes_from_service', function(req, res) {
+	let sql = 'SELECT Personnels.id,nom,prenoms FROM Personnels '+
+	'INNER JOIN Services ' +
+	'WHERE Services.id = Personnels.service '+
+	'AND Services.id = ?';
+	db.all(sql, req.query.noservice, (err, rows) => {
+		if (err) {
+			throw err;
+		}
+		res.send(rows);
+	});
+});
+
 app.get('/test_evenements', function(req, res) {
 	let sql = 'SELECT Personnels.Nom,Personnels.Prenoms,Services.libelle as Service ,Postes.libelle as Poste,Evenements.date_ev,Types.description FROM Evenements '+
 	'INNER JOIN Types,Personnels,Postes,Services '+

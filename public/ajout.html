@@ -1,0 +1,103 @@
+<!doctype html>
+<html>
+  <meta charset="utf-8">
+    <title>Application Hackathon</title>
+    <meta name="description" content="???">
+    <meta name="author" content="David Panzoli">
+    
+    <link rel = "stylesheet" type = "text/css" href = "config.css" />
+    <link rel = "stylesheet" type = "text/css" href = "/packages/bootstrap/dist/css/bootstrap.css" />
+    <script src="/packages/jquery/dist/jquery.min.js"></script>
+    <script src="/packages/angular/angular.min.js"></script>
+    <script src="/packages/bootstrap/dist/js/bootstrap.js"></script>
+</head>
+<body>
+
+<script>
+$(document).ready(function() {
+            $.ajax({
+                method: 'GET',
+                url: 'services',
+		dataType: 'json',
+                    success: function(dataC) {
+						$('body').append('<label for="service">Service : </label>');
+						$('body').append('<select name="service" id="service-select"></select>');
+						$('#service-select').append('<option selected disabled>Selectionnez un service</option>');
+                        $(dataC).each(function(k, v){
+						$('#service-select').append('<option value ="'+ v.id+'">'+v.libelle+'</option>');
+                        });
+						
+						$('#service-select').change(afficherListeClients);
+                    },
+                    error: function(x, error) {
+                            console.log(error);
+                        }
+            });
+		});
+function afficherListeClients(){
+	var noservice = $('#service-select').val();
+	$('body').append('<div id="div-clients"></div>');
+	$('#div-clients').empty();
+	console.log(noservice);
+	
+	$.ajax({
+                method: 'GET',
+                url: 'employes_from_service?noservice='+noservice,
+		dataType: 'json',
+                    success: function(dataC) {
+						$('#div-clients').append('<label for="employe">Employé : </label>');
+						$('#div-clients').append('<select name="employe" id="employe-select"></select>');
+						$('#employe-select').append('<option selected disabled>Selectionnez un employé</option>');
+                        $(dataC).each(function(k, v){
+						$('#employe-select').append('<option value ="'+ v.id+'">'+v.nom+' '+v.prenoms+'</option>');
+                        });
+						
+						$('#employe-select').change(afficherTypes);
+                    },
+                    error: function(x, error) {
+                            console.log(error);
+                        }
+            });
+			
+}
+
+function afficherTypes(){
+	$('body').append('<div id="div-types"></div>');
+	$('#div-types').empty();
+
+	$.ajax({
+                method: 'GET',
+                url: 'types',
+		dataType: 'json',
+                    success: function(dataC) {
+						$('#div-types').append('<label for="type">Type : </label>');
+						$('#div-types').append('<select name="type" id="types-select"></select>');
+						$('#types-select').append('<option selected disabled>Selectionnez un évènement</option>');
+                        $(dataC).each(function(k, v){
+						$('#types-select').append('<option value ="'+ v.id+'">'+v.description+'</option>');
+                        });
+						
+						$('#types-select').change(afficherReste);
+                    },
+                    error: function(x, error) {
+                            console.log(error);
+                        }
+            });
+}
+
+function afficherReste(){
+$('body').append('<div id="div-reste"></div>');
+$('#div-reste').empty();
+$('#div-reste').append('<label for="date_debut">Date de fin : </label>');
+$('#div-reste').append('<input type="date" id="debut" name="date_debut" required>');
+$('#div-reste').append('</br>')
+$('#div-reste').append('<label for="date_fin">Date de fin : </label>');
+$('#div-reste').append('<input type="date" id="fin" name="date_fin">');
+$('#div-reste').append('</br>')
+$('#div-reste').append('<button type="button">Envoyer le nouvel evenement</button>');
+
+}</script>
+
+</body>
+</html>
+
